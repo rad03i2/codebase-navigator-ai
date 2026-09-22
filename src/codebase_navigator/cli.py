@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, re, sys
 from dataclasses import asdict
 from .core import build_index, find_symbols, search_text, context
 
@@ -34,7 +34,7 @@ def main(argv=None) -> int:
                 elif "path" in item: print(f"{item['path']}:{item['line']}  {item['text']}")
                 else: print(f"{item['line']:>5} | {item['text']}")
         return 0
-    except (ValueError,RuntimeError,re.error) as exc:
+    except (ValueError, RuntimeError, re.error) as exc:
         print(f"error: {exc}",file=sys.stderr); return 2
 
 if __name__=="__main__": raise SystemExit(main())
