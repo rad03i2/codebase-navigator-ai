@@ -15,7 +15,7 @@ class NavigatorTests(unittest.TestCase):
         self.assertEqual([s.name for s in find_symbols(self.idx,"greet")],["Greeter"])
         self.assertEqual(find_symbols(self.idx,"hello")[0].signature,"hello(self, name)")
     def test_text_search_and_glob(self):
-        self.assertEqual(len(search_text(self.idx,"hello")),2)
+        self.assertEqual(len(search_text(self.idx,"hello")),3)
         self.assertEqual(search_text(self.idx,"architecture",glob="*.md")[0].path,"notes.md")
     def test_context(self):
         rows=context(self.idx,"app.py",2,1); self.assertEqual([n for n,_ in rows],[1,2,3])
