@@ -1,61 +1,143 @@
+<div align="center">
+
+<img src="assets/project-cover.svg" alt="Codebase Navigator AI — local-first repository mapping by Radwan Abd alhady Ahmed" width="100%" />
+
+<br/>
+
+<img src="assets/project-logo.svg" alt="Codebase Navigator AI logo" width="112" />
+
 # Codebase Navigator AI
 
-Local-first codebase navigation for developers who need to understand an unfamiliar repository quickly — without uploading source code or executing the project.
+**Read an unfamiliar repository like a map — index it, find Python symbols, search its text, and inspect focused source context without executing or uploading the code.**
 
-> **English** · العربية أدناه
+<br/>
 
-## Overview
-Codebase Navigator AI indexes readable source/text files, extracts Python classes and functions with the standard-library AST, performs literal or regular-expression search, filters by path glob, and prints focused source context. Despite the project name, v1.0 deliberately uses deterministic local analysis rather than claiming an LLM integration that is not present.
+[![CI](https://github.com/rad03i2/codebase-navigator-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/rad03i2/codebase-navigator-ai/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.10%2B-8B7CFF?logo=python&logoColor=white)
+![Version](https://img.shields.io/badge/version-1.0.0-4DE2FF)
+![Runtime deps](https://img.shields.io/badge/runtime%20dependencies-none-5EF0C8)
+![License](https://img.shields.io/badge/license-MIT-E8ECFF)
+![Mode](https://img.shields.io/badge/analysis-deterministic-F5D76E)
 
-## Why it exists
-Large repositories are slow to explore with ad-hoc shell commands. This tool provides one cross-platform CLI and a small Python API for repeatable discovery while remaining dependency-free at runtime and safe for private codebases.
+**[English](README_EN.md) · [العربية](README_AR.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](ROADMAP.md) · [Brand](docs/BRAND.md) · [Security](SECURITY.md)**
 
-## Features
-- Recursive local indexing with common vendor/build directories ignored.
-- Python AST symbol discovery: classes, functions, async functions and compact signatures.
-- Case-insensitive literal search or opt-in regex search across supported text files.
-- Glob filtering such as `src/*.py` or `**/*.md`.
-- Focused line context with project-root traversal protection.
-- Human-readable and JSON output for scripts.
-- Symlinks are not indexed; files over 1 MB are skipped by default.
-- No network calls, telemetry, source execution, imports from the inspected project, or API keys.
+</div>
 
-## Preview
+---
+
+## The idea
+
+Codebase Navigator AI is a **local-first developer CLI and small Python API** for exploring repositories without running the inspected project.
+
+It builds an in-memory index of supported text/source files, extracts classes and functions from Python through the standard-library AST, supports literal or regular-expression search, filters by glob, and returns focused line context or JSON output.
+
+> **About the “AI” name:** version 1.0 does not contain an LLM, embeddings backend, remote AI service, or hidden model call. The current engine is deterministic and local. Planned ideas are kept separately in [ROADMAP.md](ROADMAP.md).
+
+## Four navigation primitives
+
+<table>
+<tr>
+<td width="25%"><strong>Map</strong><br/><sub>Index supported repository files with safe size and count limits.</sub></td>
+<td width="25%"><strong>Locate</strong><br/><sub>Discover Python classes, functions, and async functions through AST parsing.</sub></td>
+<td width="25%"><strong>Search</strong><br/><sub>Run case-insensitive text search or opt-in regex across indexed files.</sub></td>
+<td width="25%"><strong>Focus</strong><br/><sub>Read a narrow line window while rejecting paths outside the project root.</sub></td>
+</tr>
+</table>
+
+## Current capabilities
+
+| Capability | Current behavior |
+|---|---|
+| Recursive repository indexing | Yes |
+| Common vendor/build ignores | Yes |
+| Python class discovery | Yes |
+| Python function discovery | Yes |
+| Python async-function discovery | Yes |
+| Compact Python signatures | Yes |
+| Literal text search | Yes |
+| Regex search | Yes |
+| Glob path filtering | Yes |
+| Focused source context | Yes |
+| Human-readable CLI output | Yes |
+| JSON CLI output | Yes |
+| Python API | Yes |
+| Symlink indexing | No |
+| Project code execution | No |
+| Imports from inspected code | No |
+| Network / telemetry / API keys | No |
+| Semantic embeddings | Not implemented |
+| LLM integration | Not implemented |
+| Persistent index | Not implemented |
+| Semantic symbols for non-Python languages | Not implemented |
+
+## Repository map flow
+
 ```text
-$ codebase-nav --root . symbols Navigator
-src/codebase_navigator/core.py:34  class Index
-
-$ codebase-nav --root . search "build_index" --glob "*.py"
-src/codebase_navigator/core.py:70  def build_index(...)
+repository root
+      │
+      ▼
+recursive discovery
+      │
+      ├─ skip symlinks
+      ├─ ignore common vendor/build folders
+      ├─ keep supported text/source suffixes
+      ├─ enforce file-count limit
+      └─ skip files above the byte limit
+      │
+      ▼
+UTF-8 text index
+      │
+      ├───────────────┬─────────────────┐
+      ▼               ▼                 ▼
+Python AST         text / regex       context
+symbols            search             window
+      │               │                 │
+      └───────────────┴─────────┬───────┘
+                                ▼
+                    terminal or JSON output
 ```
-Output depends on the repository being inspected. For screenshots, capture the terminal output of these commands; the project has no GUI.
 
-## Requirements & installation
-Requires Python 3.10+.
+## 30-second start
 
 ```bash
 git clone https://github.com/rad03i2/codebase-navigator-ai.git
 cd codebase-navigator-ai
 python -m pip install -e .
+codebase-nav --root . summary
 ```
 
-## Usage
+Find Python symbols:
+
 ```bash
-codebase-nav --root /path/to/project summary
-codebase-nav --root . symbols service
-codebase-nav --root . symbols handler --kind function
-codebase-nav --root . search "TODO"
-codebase-nav --root . search "def\\s+load" --regex --glob "*.py"
-codebase-nav --root . context src/app.py 42 --radius 5
-codebase-nav --root . --json symbols parser
-codebase-nav --version
+codebase-nav --root . symbols navigator
+codebase-nav --root . symbols parser --kind function
 ```
 
-Global options (`--root`, `--json`) go before the subcommand.
+Search code or documentation:
 
-### Python API
+```bash
+codebase-nav --root . search "timeout"
+codebase-nav --root . search "def\\s+load" --regex --glob "*.py"
+```
+
+Inspect a focused source window:
+
+```bash
+codebase-nav --root . context src/app.py 42 --radius 5
+```
+
+Request structured output:
+
+```bash
+codebase-nav --root . --json symbols parser
+```
+
+> Global options such as `--root` and `--json` go before the subcommand.
+
+## Python API
+
 ```python
-from codebase_navigator import build_index, find_symbols, search_text, context
+from codebase_navigator import build_index, context, find_symbols, search_text
 
 index = build_index(".")
 print(index.summary())
@@ -64,122 +146,106 @@ print(search_text(index, "timeout", glob="*.py"))
 print(context(index, "src/app.py", 20, radius=2))
 ```
 
-## Configuration
-No configuration file or environment variables are required. The API exposes `max_files`, `max_bytes`, and `ignores` for callers that need different indexing limits. CLI v1.0 intentionally keeps safe defaults fixed.
+The API also exposes `max_files`, `max_bytes`, and `ignores` through `build_index(...)`. The CLI keeps the current safe defaults fixed.
 
-## Project structure
+## What gets indexed
+
+The current source recognizes these suffixes for text search:
+
 ```text
-src/codebase_navigator/
-  __init__.py       public API
-  core.py           indexing, AST symbols, search, context
-  cli.py            command-line interface
-tests/test_core.py  functional unit tests
-.github/workflows/ci.yml
-SECURITY.md
-CONTRIBUTING.md
+.py .js .ts .tsx .jsx .java .go .rs .c .h .cpp .cs
+.rb .php .md .toml .yaml .yml .json .txt
 ```
 
-## Testing
+Common ignored directory names include:
+
+```text
+.git  .venv  venv  node_modules  dist  build  __pycache__  .pytest_cache
+```
+
+Files larger than **1,000,000 bytes** are skipped by default. The default maximum file count is **20,000**.
+
+## Safety boundary
+
+The inspected repository is treated as data:
+
+- source files are read, not executed;
+- Python files are parsed with `ast.parse`, not imported;
+- symlinks are not indexed;
+- context paths are resolved and must remain inside the indexed root;
+- there is no network client, telemetry path, API-key requirement, or runtime dependency;
+- malformed Python can fail AST parsing for that file, but the file can still participate in text search if it was read successfully.
+
+This is **not** a malware scanner or sandbox. Use normal operating-system isolation when handling untrusted repositories. See [SECURITY.md](SECURITY.md).
+
+## Tests and CI
+
+The test suite currently covers indexing, symbol discovery, signatures, text search, glob filtering, context extraction, root validation, and traversal protection.
+
 ```bash
 python -m compileall -q src tests
 python -m unittest discover -s tests -v
 codebase-nav --root . summary
 ```
-CI runs these checks on Ubuntu, Windows and macOS with Python 3.10, 3.12 and 3.13.
 
-## Security & privacy
-Inspection is read-only. The tool does not execute inspected source, import inspected modules, follow symlinks, or send source to a service. Context lookup resolves paths and rejects paths outside the indexed root. See `SECURITY.md` for the security model and reporting guidance.
+GitHub Actions executes these checks on:
 
-## Limitations
-Python is currently the only language with semantic symbol extraction; other supported text/source types participate in text search only. This is not a call graph, type checker, malware scanner, semantic embedding engine, or LLM assistant. AST parsing of syntactically invalid Python files yields no symbols for that file. Very large files are skipped, and indexing is rebuilt for each CLI invocation rather than persisted.
+| OS | Python |
+|---|---|
+| Ubuntu | 3.10 · 3.12 · 3.13 |
+| Windows | 3.10 · 3.12 · 3.13 |
+| macOS | 3.10 · 3.12 · 3.13 |
 
-## Optional roadmap
-Persistent indexes, additional language parsers, ignore-file support, and an optional pluggable local semantic-search backend are reasonable future additions. They are not claimed as current features.
+## Project layout
 
-## Contributing
-See `CONTRIBUTING.md`. Keep changes focused, tested, local-first, and free of hidden network behavior.
+```text
+codebase-navigator-ai/
+├── assets/
+│   ├── project-cover.svg
+│   └── project-logo.svg
+├── docs/
+│   ├── ARCHITECTURE.md
+│   └── BRAND.md
+├── src/codebase_navigator/
+│   ├── __init__.py
+│   ├── cli.py
+│   └── core.py
+├── tests/
+│   └── test_core.py
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/ci.yml
+├── README_EN.md
+├── README_AR.md
+├── ROADMAP.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── LICENSE
+```
 
-## License
-MIT License — see `LICENSE`.
+## Documentation
 
-## Author
-**Radwan Abdulhadi Ahmed**  
-**رضوان عبدالهادي أحمد**  
-GitHub: **@rad03i2**
+| Document | Use |
+|---|---|
+| [README_EN.md](README_EN.md) | Full English guide |
+| [README_AR.md](README_AR.md) | الدليل العربي الكامل |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Indexing, symbols, search, context, and safety invariants |
+| [docs/BRAND.md](docs/BRAND.md) | Code Atlas visual identity |
+| [ROADMAP.md](ROADMAP.md) | Ideas that are not current features |
+| [SECURITY.md](SECURITY.md) | Trust boundary and reporting guidance |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution workflow |
+| [CHANGELOG.md](CHANGELOG.md) | Notable project changes |
 
 ---
 
-# العربية
+<div align="center">
 
-## نظرة عامة
-**Codebase Navigator AI** أداة محلية مكتوبة ببايثون لاستكشاف المشاريع البرمجية بسرعة دون رفع الشفرة إلى خدمة خارجية أو تشغيل المشروع المفحوص. تفهرس الملفات النصية، وتستخرج الأصناف والدوال من ملفات Python باستخدام AST، وتبحث بالنص أو بالتعبيرات النمطية، وتعرض سياق الأسطر المطلوب. الاسم يتضمن AI، لكن الإصدار 1.0 لا يدّعي وجود نموذج لغوي؛ التحليل الحالي محلي وحتمي وقابل للفهم.
+### Built by رضوان عبدالهادي
 
-## لماذا هذا المشروع؟
-استكشاف مستودع غير مألوف عبر أوامر متفرقة قد يكون بطيئًا. توحّد الأداة عمليات الجرد والبحث واكتشاف الرموز وعرض السياق في CLI واحد يعمل على الأنظمة الرئيسية، مع Python API صغيرة وبدون اعتماديات تشغيل خارجية.
+**Radwan Abd alhady Ahmed · [@rad03i2](https://github.com/rad03i2)**
 
-## الميزات
-- فهرسة متكررة للمشروع مع تجاهل مجلدات مثل `.git` و`node_modules` و`.venv` و`dist` و`build`.
-- اكتشاف classes وfunctions وasync functions في Python مع التوقيع المختصر.
-- بحث نصي غير حساس لحالة الأحرف أو Regex اختياري.
-- تصفية الملفات باستخدام glob.
-- عرض سياق الأسطر مع منع الخروج من جذر المشروع.
-- مخرجات بشرية أو JSON للأتمتة.
-- عدم تتبع الروابط الرمزية وتجاوز الملفات الأكبر من 1MB افتراضيًا.
-- لا شبكة، لا telemetry، لا مفاتيح API، ولا تنفيذ لشفرة المشروع المفحوص.
+<sub>Navigate structure first. Read focused context second. Keep private code local.</sub>
 
-## التثبيت والمتطلبات
-يتطلب Python 3.10 أو أحدث.
-
-```bash
-git clone https://github.com/rad03i2/codebase-navigator-ai.git
-cd codebase-navigator-ai
-python -m pip install -e .
-```
-
-## الاستخدام
-```bash
-codebase-nav --root . summary
-codebase-nav --root . symbols client
-codebase-nav --root . search "TODO"
-codebase-nav --root . search "class\\s+Service" --regex --glob "*.py"
-codebase-nav --root . context src/app.py 20 --radius 3
-codebase-nav --root . --json symbols parser
-```
-يجب وضع الخيارات العامة مثل `--root` و`--json` قبل الأمر الفرعي.
-
-## Python API
-يمكن استيراد `build_index` و`find_symbols` و`search_text` و`context` مباشرة من حزمة `codebase_navigator` لاستخدامها داخل أدوات أخرى.
-
-## الإعداد
-لا تحتاج الأداة إلى ملف إعداد أو متغيرات بيئة. تتيح الـAPI تغيير حدود عدد الملفات وحجم الملف وقائمة المجلدات المتجاهلة. يستخدم CLI إعدادات آمنة ثابتة في الإصدار الحالي.
-
-## بنية المشروع
-الكود الأساسي في `src/codebase_navigator/`، والاختبارات في `tests/`، وسير CI في `.github/workflows/ci.yml`. توجد سياسات مستقلة للأمان والمساهمة.
-
-## الاختبارات
-```bash
-python -m compileall -q src tests
-python -m unittest discover -s tests -v
-codebase-nav --root . summary
-```
-يشغّل CI الفحوص على Ubuntu وWindows وmacOS مع عدة إصدارات من Python.
-
-## الأمان والخصوصية
-العمل قراءة فقط. لا تستورد الأداة وحدات المشروع المفحوص ولا تنفذها ولا ترسل المصدر خارجيًا ولا تتبع symlinks. كما تتحقق عملية عرض السياق من بقاء المسار داخل جذر المشروع. راجع `SECURITY.md` للتفاصيل.
-
-## القيود
-استخراج الرموز الدلالي متاح حاليًا لبايثون فقط؛ بقية الأنواع المدعومة تدخل في البحث النصي. الأداة ليست call graph أو type checker أو ماسح برمجيات خبيثة أو محرك embeddings أو مساعد LLM. الملفات ذات Python غير الصالح نحويًا لا تنتج رموزًا، والملفات الكبيرة تُتجاوز، والفهرس يعاد بناؤه في كل تشغيل CLI.
-
-## التطوير الاختياري
-يمكن مستقبلًا إضافة فهرس دائم، محللات لغات أخرى، دعم ملفات التجاهل، ومحرك بحث دلالي محلي اختياري. هذه أفكار مستقبلية وليست ميزات حالية.
-
-## المساهمة
-راجع `CONTRIBUTING.md`. يجب أن تكون التغييرات محددة ومختبرة وتحافظ على مبدأ العمل المحلي وعدم وجود اتصالات مخفية.
-
-## الترخيص
-MIT — راجع `LICENSE`.
-
-## المؤلف
-**Radwan Abdulhadi Ahmed**  
-**رضوان عبدالهادي أحمد**  
-GitHub: **@rad03i2**
+</div>

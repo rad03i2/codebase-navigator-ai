@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="title desc">
+<title id="title">Codebase Navigator AI project cover</title>
+<desc id="desc">Code Atlas identity for local-first repository navigation by Radwan Abd alhady Ahmed.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#080B18"/><stop offset=".52" stop-color="#11152B"/><stop offset="1" stop-color="#151B34"/></linearGradient>
+<linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B7CFF"/><stop offset="1" stop-color="#5B5BF7"/></linearGradient>
+<linearGradient id="aqua" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4DE2FF"/><stop offset="1" stop-color="#5EF0C8"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#785CFF" stop-opacity=".22"/><stop offset="1" stop-color="#785CFF" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="#29304C" stroke-width="1"/></pattern>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#000" flood-opacity=".48"/></filter>
+</defs>
+<rect width="1600" height="720" fill="url(#bg)"/><rect width="1600" height="720" fill="url(#grid)" opacity=".38"/>
+<circle cx="1330" cy="160" r="330" fill="url(#glow)"/><circle cx="210" cy="670" r="220" fill="#4DE2FF" opacity=".035"/>
+<g transform="translate(92 94)">
+<rect width="236" height="38" rx="19" fill="#10152A" stroke="#31395D"/><circle cx="21" cy="19" r="5" fill="#5EF0C8"/>
+<text x="39" y="25" fill="#AEB9D8" font-size="14" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" letter-spacing="2">LOCAL CODE INTELLIGENCE</text>
+<text x="0" y="124" fill="#F5F7FF" font-size="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" letter-spacing="-3">CODEBASE</text>
+<text x="0" y="203" fill="url(#violet)" font-size="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" letter-spacing="-3">NAVIGATOR AI</text>
+<text x="2" y="255" fill="#B7C1DE" font-size="24" font-family="Inter,Segoe UI,Arial,sans-serif">Map unfamiliar repositories without executing or uploading their code.</text>
+<text x="2" y="294" fill="#7684AA" font-size="17" font-family="Inter,Segoe UI,Arial,sans-serif">Index • Python AST symbols • text / regex search • focused context • JSON</text>
+<g transform="translate(0 340)" font-family="Inter,Segoe UI,Arial,sans-serif">
+<g><rect width="150" height="44" rx="12" fill="#12182D" stroke="#343D61"/><circle cx="22" cy="22" r="8" fill="none" stroke="#4DE2FF" stroke-width="2"/><path d="M22 14v16M14 22h16" stroke="#4DE2FF" stroke-width="1.8" stroke-linecap="round"/><text x="45" y="28" fill="#E1E6F8" font-size="15" font-weight="650">Read-only</text></g>
+<g transform="translate(166 0)"><rect width="174" height="44" rx="12" fill="#12182D" stroke="#423B67"/><path d="M18 29l10-14 10 14" fill="none" stroke="#8B7CFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="49" y="28" fill="#E1E6F8" font-size="15" font-weight="650">Python AST</text></g>
+<g transform="translate(356 0)"><rect width="156" height="44" rx="12" fill="#12182D" stroke="#31564E"/><path d="M20 13v18M14 22h12" stroke="#5EF0C8" stroke-width="2.2" stroke-linecap="round"/><text x="46" y="28" fill="#E1E6F8" font-size="15" font-weight="650">No network</text></g>
+</g>
+<g transform="translate(0 469)"><text x="0" y="0" fill="#F5F7FF" font-size="24" font-family="Tahoma,Segoe UI,Arial,sans-serif" font-weight="700">رضوان عبدالهادي</text><text x="0" y="31" fill="#7E8BAE" font-size="15" font-family="Inter,Segoe UI,Arial,sans-serif" letter-spacing=".8">A RADWAN ABD ALHADY PROJECT</text></g>
+</g>
+<g transform="translate(965 70)" filter="url(#shadow)">
+<circle cx="270" cy="280" r="224" fill="#0D1224" stroke="#2A3353" stroke-width="2"/><circle cx="270" cy="280" r="178" fill="none" stroke="#38416C" stroke-width="2" stroke-dasharray="8 12"/><circle cx="270" cy="280" r="116" fill="none" stroke="#26314D" stroke-width="2"/>
+<path d="M270 36V524M26 280H514M102 112L438 448M438 112L102 448" stroke="#252F4C" stroke-width="1.5"/>
+<g stroke-linecap="round" stroke-width="4"><path d="M270 280L148 178" stroke="#8B7CFF"/><path d="M270 280L394 158" stroke="#4DE2FF"/><path d="M270 280L406 336" stroke="#5EF0C8"/><path d="M270 280L184 404" stroke="#8B7CFF"/><path d="M148 178L106 296" stroke="#4DE2FF" opacity=".75"/><path d="M394 158L442 260" stroke="#8B7CFF" opacity=".75"/><path d="M184 404L314 446" stroke="#5EF0C8" opacity=".75"/></g>
+<g><circle cx="148" cy="178" r="17" fill="#171B35" stroke="#8B7CFF" stroke-width="4"/><circle cx="394" cy="158" r="14" fill="#101A2E" stroke="#4DE2FF" stroke-width="4"/><circle cx="406" cy="336" r="15" fill="#10211F" stroke="#5EF0C8" stroke-width="4"/><circle cx="184" cy="404" r="14" fill="#171B35" stroke="#8B7CFF" stroke-width="4"/><circle cx="106" cy="296" r="10" fill="#101A2E" stroke="#4DE2FF" stroke-width="3"/><circle cx="442" cy="260" r="10" fill="#171B35" stroke="#8B7CFF" stroke-width="3"/><circle cx="314" cy="446" r="10" fill="#10211F" stroke="#5EF0C8" stroke-width="3"/></g>
+<g transform="translate(200 194)"><path d="M52 0h88l36 36v116a20 20 0 0 1-20 20H52a20 20 0 0 1-20-20V20A20 20 0 0 1 52 0z" fill="#12182E" stroke="url(#violet)" stroke-width="4"/><path d="M140 0v24a16 16 0 0 0 16 16h20" fill="#1A2441" stroke="#8B7CFF" stroke-width="4"/><path d="M72 66l-20 20 20 20M136 66l20 20-20 20M116 56L92 116" fill="none" stroke="url(#aqua)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g transform="translate(184 504)"><rect width="172" height="52" rx="18" fill="#11162B" stroke="#38416C"/><circle cx="26" cy="26" r="6" fill="#5EF0C8"/><text x="44" y="32" fill="#D8DEF1" font-size="14" font-family="ui-monospace,SFMono-Regular,Consolas,monospace">repository mapped</text></g>
+</g>
+<g transform="translate(1240 640)" opacity=".8"><path d="M0 0h255" stroke="#37405E"/><circle cx="263" cy="0" r="4" fill="#5EF0C8"/><text x="0" y="24" fill="#68769A" font-size="12" font-family="ui-monospace,SFMono-Regular,Consolas,monospace" letter-spacing="1.2">INDEX • FIND • SEARCH • CONTEXT</text></g>
+</svg>
